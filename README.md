@@ -1,75 +1,44 @@
-# React + TypeScript + Vite
+# DataExplorer — SEC Financial Intelligence
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, high-performance financial data visualizer built to interface directly with the SEC EDGAR API. DataExplorer provides institutional-grade fundamental analysis tools for U.S. public companies, designed with a focus on speed, clarity, and data portability.
 
-Currently, two official plugins are available:
+## Core Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Blazing Fast Identity Search**: Instant autocomplete mapping for thousands of active SEC stickers, company names, and CIK identifiers.
+- **Native EDGAR Integration**: Real-time retrieval of XBRL company facts from `data.sec.gov`, bypasses typical CORS hurdles via integrated development proxies.
+- **Financial Visualization**: Automated parsing of annual 10-K filings to visualize 5-year trajectories for revenue and net profitability.
+- **CSV & PDF Portability**: One-click generation of structured CSV data and professional PDF financial reports for external analysis.
+- **Premium Light Aesthetic**: A modern, high-contrast interface built with Tailwind CSS v4, emphasizing a "glassmorphic" light theme and fluid micro-interactions.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **Core**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS v4 (Oxide engine)
+- **Visualization**: Recharts
+- **Exports**: jsPDF + jspdf-autotable
+- **Connectivity**: React Context API + Native Fetch
 
-Note: This will impact Vite dev & build performances.
+## Getting Started
 
-## Expanding the ESLint configuration
+1. **Install Dependencies**  
+   ```bash
+   npm install
+   ```
+2. **Launch Environment**  
+   The Vite configuration is pre-wired to proxy requests to the SEC servers with the required identity headers.
+   ```bash
+   npm run dev
+   ```
+3. **Analyze**  
+   Visit `http://localhost:5173` and search for a company (e.g., AAPL, TSLA, or Microsoft) to begin the analysis.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Key Considerations
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **XBRL Mapping**: The SEC returns exhaustive datasets. We intelligently map GAAP aliases (like `SalesRevenueNet` or `Revenues`) to normalize records across different corporate reporting styles.
+- **SEC Rate Limits**: The EDGAR API enforces a limit of 10 requests per second. The application handles requests efficiently to remain compliant with these thresholds.
+- **Data Period**: To maintain focus on recent performance, the visualizer graphs the most recent 5 fiscal years found in available 10-K records.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Deployment
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The project includes `/api` handlers that are ready for **Vercel Serverless** deployment, ensuring that the necessary proxy logic for SEC data remains functional in a production environment.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```

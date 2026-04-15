@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased min-h-screen relative font-sans;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05), transparent 25%),
+      radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05), transparent 25%);
+  }
+}
+
+@utility glass {
+  @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-sm;
+}
+
+@utility glass-card {
+  @apply bg-white border border-slate-200/60 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 hover:border-emerald-500/20;
+}
+
+@utility text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-emerald-600 to-cyan-600;
+}
